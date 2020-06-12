@@ -59,7 +59,7 @@ export default class App extends Lightning.Component {
                 }
 
                 $exit() {
-                    this.tag("Loading").visible = false;
+                    this.tag("Background").visible = false;
                 }
             },
             class Widgets extends this {
@@ -94,5 +94,4 @@ export default class App extends Lightning.Component {
     _getFocused() {
         return Router.getActivePage();
     }
-
 }

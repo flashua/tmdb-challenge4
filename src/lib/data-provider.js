@@ -1,5 +1,5 @@
-import {Router} from "wpe-lightning-sdk";
-import {getPopular, getDetails} from './api';
+import { Router } from "wpe-lightning-sdk";
+import { getPopular, getDetails } from "./api";
 
 /**
  *  bind a data request to a specific route, before a page load
@@ -8,24 +8,41 @@ import {getPopular, getDetails} from './api';
  *
  * @see docs: https://github.com/rdkcentral/Lightning-SDK/blob/feature/router/docs/plugins/router.md
  *
-*/
+ */
 export default () => {
+  Router.boot(async () => Router.navigate("splash"));
 
-    Router.boot(async () => Router.navigate("splash"));
+  Router.before(
+    "home/browse/movies",
+    async ({ page }) => {
+      page.data = await getPopular("movie");
+    },
+    10 * 60 /* expires */
+  );
 
-    Router.before("home/browse/movies", async ({page})=>{
-        page.data = await getPopular('movie');;
-    }, 10 * 60 /* expires */);
+  Router.before(
+    "home/browse/series",
+    async ({ page }) => {
+      page.data = await getPopular("tv");
+    },
+    10 * 60 /* expires */
+  );
 
-    Router.before("home/browse/series", async ({page})=>{
-        page.data =  await getPopular('tv');;
-    }, 10 * 60 /* expires */);
+  Router.before(
+    "details/:itemType/:itemId",
+    async ({ page, itemType, itemId }) => {
+      page.details = await getDetails(itemType, itemId);
+    }
+  );
 
-    Router.before("details/:itemType/:itemId", async ({page, itemType, itemId})=>{
-        page.details = await getDetails(itemType, itemId);;
-    });
+  Router.before(
+    "details/:itemType/:itemId/play",
+    async ({ page, itemType, itemId }) => {
+      page.item = await getDetails(itemType, itemId);
+    }
+  );
 
-    Router.before("details/:itemType/:itemId/play", async ({page, itemType, itemId})=>{
-        page.item = await getDetails(itemType, itemId);
-    });
-}
+  Router.after("details/:itemType/:itemId/play", ({ page }) => {
+    page._player.close();
+  });
+};

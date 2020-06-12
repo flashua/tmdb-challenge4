@@ -8,13 +8,16 @@
     "imageQuality": 90,
     "previewInterval": 3000,
     "previewDuration": 10000,
-    "animateToFullscreen": true
+    "animateToFullscreen": true,
+    "keys": {
+      "32": "Space"
+    }
   },
   "platformSettings": {
     "log": true,
     "path": "./static",
     "showVersion": false,
-    "inspector": false,
+    "inspector": true,
     "gcOnUnload": true,
     "lazyCreate": true,
     "lazyDestroy": true,
