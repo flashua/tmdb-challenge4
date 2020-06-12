@@ -69,23 +69,12 @@ export default class List extends Lightning.Component {
         this.application.emit("updateItem", {item});
     }
 
-
-    /**
-     * @todo:
-     * Implement working setIndex method
-     * that stores index and position movie component to focus
-     * on selected item
-     */
     setIndex(idx){
         // store new index
         this._index = idx;
 
         // update position
         this.tag("Items").setSmooth("x",  idx * -220 );
-    }
-
-    set label(v) {
-        // @todo: update list title
     }
 
     set movies(v) {

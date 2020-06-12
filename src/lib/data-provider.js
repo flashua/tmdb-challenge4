@@ -11,14 +11,7 @@ import {getPopular, getDetails} from './api';
 */
 export default () => {
 
-    Router.boot(async()=> {
-        // this will always be called
-    });
-
-    /**
-     * @todo: inside this data-provider for the movies route
-     * you must await for the getMovies() and invoke the data on the page
-     */
+    Router.boot(async () => Router.navigate("splash"));
 
     Router.before("home/browse/movies", async ({page})=>{
         page.data = await getPopular('movie');;
